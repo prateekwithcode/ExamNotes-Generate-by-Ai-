@@ -1,8 +1,21 @@
 import React from "react";
 import { motion } from "motion/react";
 import { FcGoogle } from "react-icons/fc";
+import {auth,provider} from "../utils/firebase.js"
+import {signInWithPopup} from "firebase/auth"
 
 function Auth() {
+
+  const handleGoogleAuth=async()=>{
+    try {
+      const res = await signInWithPopup(auth,provider)
+      const User= res.user
+      const name = User.displayName
+      const email = User.email
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="min-h-screen overflow-hidden bg-white text-black px-8">
       <motion.header
@@ -37,7 +50,7 @@ function Auth() {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 200, damping: 18 }}
             className="mt-10 px-10 py-3 rounded-xl flex items-center gap-3 bg-gradient-to-br from-black via-black/80 to-black/90 border border-white/10 text-white font-semibold text-lg shadow-[0_25px_60px_rgba(0,0,0,0.7)]"
-          >
+           onClick={handleGoogleAuth}>
             <FcGoogle size={22} />
             Continue with Google
           </motion.button>
