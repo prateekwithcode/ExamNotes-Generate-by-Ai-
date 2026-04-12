@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         ref:"Notes",
         default:[]
     }
-},{timestamps:ture});
+});
 
 
 const UserModel = mongoose.model("UserModel",userSchema);
