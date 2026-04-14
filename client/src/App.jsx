@@ -3,7 +3,7 @@ import Home from "./pages/Home.jsx";
 import Auth from "./pages/Auth.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import {getCurrentUser} from "./services/api.js"
+import { getCurrentUser } from "./services/api.js";
 
 export const serverUrl = "http://localhost:8000";
 function App() {
@@ -13,13 +13,18 @@ function App() {
     getCurrentUser(dispatch);
   }, [dispatch]);
 
-  const {userData} = useSelector((state)=>state.user)
-  console.log(userData)
+  const { userData } = useSelector((state) => state.user);
   return (
-    <> 
+    <>
       <Routes>
-        <Route path="/" element={userData?<Home />:<Navigate to="/auth" replace/>} />
-        <Route path="/auth" element={userData ? <Navigate to="/" replace/>:<Auth />} />
+        <Route
+          path="/"
+          element={userData ? <Home /> : <Navigate to="/auth" replace />}
+        />
+        <Route
+          path="/auth"
+          element={userData ? <Navigate to="/" replace /> : <Auth />}
+        />
       </Routes>
     </>
   );
