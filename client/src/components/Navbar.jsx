@@ -74,7 +74,7 @@ function Navbar() {
                   Use credits to generate AI notes, diagrams & PDFs.
                 </p>
                 <button
-                  onClick={() => setShowCredits(false)}
+                  onClick={() =>{ setShowCredits(false);navigate("/pricing")}}
                   className="w-full py-2 rounded-lg bg-gradient-to-br from-white to-gray-200 text-black font-semibold hover:opacity-90"
                 >
                   Buy More Credits
@@ -108,7 +108,7 @@ function Navbar() {
               >
                 <MenuItem
                   text="History"
-                  onClick={() => setShowProfile(false)}
+                  onClick={() => {setShowProfile(false);navigate("/history")}}
                 />
                 <div className="h-px bg-white/10 mx-3" />
                 <MenuItem text="Sign out" red onClick={handleSignOut} />
