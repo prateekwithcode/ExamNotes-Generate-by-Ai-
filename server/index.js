@@ -6,6 +6,8 @@ import authRoute from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import userRouter from "./routes/user.route.js";
+import notesRouter from "./routes/generate.route.js";
+
 // DB CALL
 connectDB();
 
@@ -27,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 // ROUTES
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRouter);
+app.use("/api/notes", notesRouter);
 
 app.get("/", (req, res) => {
   res.send("all working routes");
