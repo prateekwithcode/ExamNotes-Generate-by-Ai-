@@ -12,7 +12,7 @@ export const generateNotes = async (req, res) => {
       revisionMode = false,
       includeDiagram = false,
       includeChart = false,
-    } = req.body();
+    } = req.body;
 
     if (!topic) {
       return res.status(400).json({ message: "Topic is required" });
@@ -39,7 +39,7 @@ export const generateNotes = async (req, res) => {
       includeChart,
     });
 
-    const aiResponse = generateGeminiResponse(prompt);
+    const aiResponse = await generateGeminiResponse(prompt);
 
     const notes = await Notes.create({
       user: user._id,

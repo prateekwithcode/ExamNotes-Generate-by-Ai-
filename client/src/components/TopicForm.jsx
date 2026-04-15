@@ -1,14 +1,41 @@
 import { motion } from "motion/react";
 import React from "react";
 import { useState } from "react";
+import { generateNotes } from "../services/api";
 
-function TopicForm({setResult,setLoading,loading,setError}) {
+function TopicForm({ setResult, setLoading, loading, setError }) {
   const [topic, setTopic] = useState("");
   const [classLevel, setClassLevel] = useState("");
   const [examType, setExamType] = useState("");
   const [revisionMode, setRevisionMode] = useState(false);
   const [includeDiagram, setIncludeDiagram] = useState(false);
   const [includeChart, setIncludeChart] = useState(false);
+  
+  const handleSubmit = async () => {
+    if (!topic.trim()) {
+      setError("Please enter the topic");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    setResult(null);
+    try {
+      const result =await generateNotes({
+        topic,
+        classLevel,
+        examType,
+        revisionMode,
+        includeDiagram,
+        includeChart,
+      });
+      setResult(result.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setError("Failed to fetch notes from server");
+      setLoading(false);
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -40,25 +67,43 @@ function TopicForm({setResult,setLoading,loading,setError}) {
       />
 
       <div className="flex flex-col md:flex-row gap-6">
-        <Toggle label="Exam Revision Mode" checked={revisionMode} onChange={()=>setRevisionMode(!revisionMode)}/>
+        <Toggle
+          label="Exam Revision Mode"
+          checked={revisionMode}
+          onClick={() => setRevisionMode(!revisionMode)}
+        />
 
-        <Toggle label="Include Diagrams" checked={includeDiagram} onChange={()=>setIncludeDiagram(!includeDiagram)}/>
+        <Toggle
+          label="Include Diagrams"
+          checked={includeDiagram}
+          onClick={() => setIncludeDiagram(!includeDiagram)}
+        />
 
-        <Toggle label="Include Charts" checked={includeChart} onChange={()=>setIncludeChart(!includeChart)}/>
+        <Toggle
+          label="Include Charts"
+          checked={includeChart}
+          onClick={() => setIncludeChart(!includeChart)}
+        />
       </div>
 
-      <motion.button whileHover={!loading?{scale:1.02}:{}} whileTap={!loading?{scale:0.95}:{}} disabled={loading} className={`w-full mt-4 py-3 rounded-xl font-semibold flex items-center justify-center gap-3 transition ${loading?"bg-gray-300 text-gray-600 cursor-not-allowed":"bg-gradient-to-br from-white to-gray-200 text-black shadow-[0_15px_35px_rgba(0,0,0,0.04)]"}`}>
-          {loading?"Generating Notes...":"Generate Notes"}
+      <motion.button
+        onClick={handleSubmit}
+        whileHover={!loading ? { scale: 1.02 } : {}}
+        whileTap={!loading ? { scale: 0.95 } : {}}
+        disabled={loading}
+        className={`w-full mt-4 py-3 rounded-xl font-semibold flex items-center justify-center gap-3 transition ${loading ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "bg-gradient-to-br from-white to-gray-200 text-black shadow-[0_15px_35px_rgba(0,0,0,0.04)]"}`}
+      >
+        {loading ? "Generating Notes..." : "Generate Notes"}
       </motion.button>
     </motion.div>
   );
 }
 
-function Toggle({ label, checked, onChange }) {
+function Toggle({ label, checked, onClick }) {
   return (
     <div
       className="flex items-center gap-4 cursor-pointer select-none"
-      onClick={onclick}
+      onClick={onClick}
     >
       <motion.div
         animate={{
@@ -66,15 +111,21 @@ function Toggle({ label, checked, onChange }) {
             ? "rgba(34,197,94,0.35)" //green when ON
             : "rgba(255,255,255,0.15)", //gray when OFF
         }}
-
-        transition={{duration:0.25}}
-      className="relative w-12 h-6 rounded-full border border-white/20 backdrop-blur-lg">
-        <motion.div layout transition={{type:"spring",stiffness:500,damping:30}} className="absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-[0_5px_15px_rgba(0,0,0,0.5)]" style={{left:checked?"1.6rem":"0.25rem"}}>
-          
-        </motion.div>
-        
+        transition={{ duration: 0.25 }}
+        className="relative w-12 h-6 rounded-full border border-white/20 backdrop-blur-lg"
+      >
+        <motion.div
+          layout
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+          className="absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-[0_5px_15px_rgba(0,0,0,0.5)]"
+          style={{ left: checked ? "1.6rem" : "0.25rem" }}
+        ></motion.div>
       </motion.div>
-      <span className={`text-sm transition-colors ${checked?"text-green-300":"text-gray-300"}`}>{label}</span>
+      <span
+        className={`text-sm transition-colors ${checked ? "text-green-300" : "text-gray-300"}`}
+      >
+        {label}
+      </span>
     </div>
   );
 }

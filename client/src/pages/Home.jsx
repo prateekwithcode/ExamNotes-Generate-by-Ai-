@@ -43,7 +43,10 @@ function Home() {
               and revision-ready content using AI - faster, cleaner and smarter.
             </motion.p>
 
-            <motion.button
+            
+          </motion.div>
+
+          <motion.button
             onClick={()=>navigate("/notes")}
               whileHover={{scale: 1.07 }}
               whileTap={{ scale: 0.95 }}
@@ -52,7 +55,6 @@ function Home() {
             >
               Get Started
             </motion.button>
-          </motion.div>
         </div>
 
         <motion.div initial={{opacity:0,x:60}}
