@@ -9,14 +9,17 @@ export const buildPrompt = ({
   return `
 You are a STRICT JSON generator for an exam preparation system.
 
-⚠️ VERY IMPORTANT:
-- Output MUST be valid JSON
-- Your response will be parsed using JSON.parse()
-- INVALID JSON will cause system failure
+CRITICAL RULES (MUST FOLLOW):
+- Output ONLY valid JSON
+- Response will be parsed using JSON.parse()
+- INVALID JSON will break the system
 - Use ONLY double quotes "
-- NO comments, NO trailing commas
-- Escape line breaks using \\n
-- Do NOT use emojis inside text values
+- NO comments
+- NO trailing commas
+- NO extra text before or after JSON
+- DO NOT wrap response in \`\`\`json
+- Escape all line breaks using \\n
+- Do NOT use emojis anywhere
 
 TASK:
 Convert the given topic into exam-focused notes.
@@ -29,69 +32,64 @@ Revision Mode: ${revisionMode ? "ON" : "OFF"}
 Include Diagram: ${includeDiagram ? "YES" : "NO"}
 Include Charts: ${includeChart ? "YES" : "NO"}
 
-GLOBAL CONTENT RULES:
-- Use clear, simple, exam-oriented language
-- Notes MUST be Markdown formatted
-- Headings and bullet points only
+CONTENT RULES:
+- Use simple, clear, exam-oriented language
+- Keep content structured and to the point
+- Avoid unnecessary explanations
 
-REVISION MODE RULES (CRITICAL):
-- If REVISION MODE is ON:
-  - Notes must be VERY SHORT
-  - Only bullet points
-  - One-line answers only
-  - Definitions, formulas, keywords
-  - No paragraphs
+NOTES RULES:
+- Output MUST be plain text (NOT markdown)
+- Use \\n for line breaks
+- Use headings in ALL CAPS followed by colon
+- Use bullet points with "- "
+- DO NOT use symbols like **, #, or backticks
+
+REVISION MODE:
+- If ON:
+  - Only short bullet points
+  - One-line facts only
   - No explanations
-  - Content must feel like:
-    - last-day revision
-    - 5-minute exam cheat sheet
-  - revisionPoints MUST summarize ALL important facts
+  - Include definitions, formulas, keywords
+  - Make it usable for last-minute revision
+  - revisionPoints MUST include all key facts
 
-- If REVISION MODE is OFF:
-  - Notes must be DETAILED but exam-focused
-  - Each topic should include:
+- If OFF:
+  - Include:
     - definition
-    - short explanation
-    - examples (if applicable)
-  - Paragraph length: max 2–4 lines
-  - No storytelling, no extra theory
+    - short explanation (2–3 lines max)
+    - examples if relevant
+  - Keep paragraphs very short
 
-IMPORTANCE RULES:
-- Divide sub-topics into THREE categories:
-  - ⭐ Very Important Topics
-  - ⭐⭐ Important Topics
-  - ⭐⭐⭐ Frequently Asked Topics
-- All three categories MUST be present
-- Base importance on exam frequency and weightage
+IMPORTANCE DISTRIBUTION:
+- Divide subtopics into ALL THREE:
+  - "⭐": Very Important
+  - "⭐⭐": Important
+  - "⭐⭐⭐": Frequently Asked
+- Do NOT leave any category empty
+- Base on exam relevance
 
 DIAGRAM RULES:
-- If INCLUDE DIAGRAM is YES:
-  - diagram.data MUST be a SINGLE STRING
-  - Valid Mermaid syntax only
-  - Must start with: graph TD
-  - Wrap EVERY node label in square brackets [ ]
-  - Do NOT use special characters inside labels
-- If INCLUDE DIAGRAM is NO:
+- If YES:
+  - diagram.data MUST be ONE string
+  - Valid Mermaid syntax ONLY
+  - MUST start with: graph TD
+  - Wrap EVERY label in [ ]
+  - Use simple text only (no special characters)
+- If NO:
   - diagram.data MUST be ""
 
-CHART RULES (RECHARTS):
-- If INCLUDE CHARTS is YES:
-  - charts array MUST NOT be empty
-  - Generate at least ONE chart
-  - Choose chart based on topic type:
-    - THEORY topic → bar or pie (importance / weightage)
-    - PROCESS topic → bar or line (steps / stages)
-  - Use numeric values ONLY
-  - Labels must be short and exam-oriented
-- If INCLUDE CHARTS is NO:
+CHART RULES:
+- If YES:
+  - charts MUST contain at least one chart
+  - Allowed types: bar, line, pie
+  - Use ONLY numeric values
+  - Keep labels short
+  - Choose chart type based on topic
+
+- If NO:
   - charts MUST be []
 
-CHART TYPES ALLOWED:
-- bar
-- line
-- pie
-
-CHART OBJECT FORMAT:
+CHART FORMAT:
 {
   "type": "bar | line | pie",
   "title": "string",
@@ -100,29 +98,31 @@ CHART OBJECT FORMAT:
   ]
 }
 
-STRICT JSON FORMAT (DO NOT CHANGE):
+OUTPUT FORMAT (STRICT):
 
 {
   "subTopics": {
-    "⭐": [],
-    "⭐⭐": [],
-    "⭐⭐⭐": []
+    "⭐": ["string"],
+    "⭐⭐": ["string"],
+    "⭐⭐⭐": ["string"]
   },
   "importance": "⭐ | ⭐⭐ | ⭐⭐⭐",
   "notes": "string",
-  "revisionPoints": [],
+  "revisionPoints": ["string"],
   "questions": {
-    "short": [],
-    "long": [],
-    "diagram": ""
+    "short": ["string"],
+    "long": ["string"],
+    "diagram": "string"
   },
   "diagram": {
     "type": "flowchart | graph | process",
-    "data": ""
+    "data": "string"
   },
   "charts": []
 }
 
-RETURN ONLY VALID JSON.
+FINAL INSTRUCTION:
+Return ONLY valid JSON.
+If unsure, still return correct JSON structure.
 `;
 };

@@ -2,7 +2,7 @@ import React from 'react'
 
 function FinalResult({result}) {
   return (
-    <div></div>
+    <div>s</div>
   )
 }
 
