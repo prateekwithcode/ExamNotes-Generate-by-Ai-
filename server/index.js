@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import userRouter from "./routes/user.route.js";
 import notesRouter from "./routes/generate.route.js";
+import pdfRouter from "./routes/pdf.route.js";
 
 // DB CALL
 connectDB();
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRouter);
 app.use("/api/notes", notesRouter);
+app.use("/api/pdf", pdfRouter);
 
 app.get("/", (req, res) => {
   res.send("all working routes");
