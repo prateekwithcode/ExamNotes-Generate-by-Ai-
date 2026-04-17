@@ -63,6 +63,26 @@ function Sidebar({ result }) {
             ))}
           </ul>
         </div>
+
+        <div className="mb-4 rounded-lg bg-purple-50 border border-purple-200 p-3">
+          <p className="text-sm font-medium text-purple-700 mb-2">
+            Long Questions
+          </p>
+          <ul className="list-disc ml-4 text-sm text-gray-700 space-y-1">
+            {result.questions.long.map((t, i) => (
+              <li key={i}>{t}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mb-4 rounded-lg bg-blue-50 border border-blue-200 p-3">
+          <p className="text-sm font-medium text-blue-700 mb-2">
+            Diagram Questions
+          </p>
+          <ul className="list-disc ml-4 text-sm text-gray-700 space-y-1">
+            <li>{result.questions.diagram}</li>
+          </ul>
+        </div>
       </section>
     </div>
   );

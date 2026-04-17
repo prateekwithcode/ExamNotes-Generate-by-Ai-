@@ -85,6 +85,7 @@ export const generateGeminiResponse = async (prompt) => {
       .trim();
 
     const extractJSON = (text) => {
+      
       try {
         return JSON.parse(text);
       } catch {
@@ -93,7 +94,7 @@ export const generateGeminiResponse = async (prompt) => {
         return JSON.parse(match[0]);
       }
     };
-    return extractJSON(text);
+    return extractJSON(cleanText);
     // return JSON.parse(cleanText);
   } catch (error) {
     console.log("OpenAI Fetch Error:", error.message);
