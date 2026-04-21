@@ -174,7 +174,7 @@ function Toggle({ label, checked, onClick }) {
       <motion.div
         animate={{
           backgroundColor: checked
-            ? "rgba(34,197,94,0.35)" //green when ON
+            ? "rgba(69, 246, 82, 0.8)" //green when ON
             : "rgba(255,255,255,0.15)", //gray when OFF
         }}
         transition={{ duration: 0.25 }}

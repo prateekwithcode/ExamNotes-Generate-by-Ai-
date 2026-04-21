@@ -49,6 +49,7 @@ export const generateNotes = async (req, res) => {
       revisionMode,
       includeDiagram,
       includeChart,
+      content:aiResponse
     });
 
     user.credits -= 10;

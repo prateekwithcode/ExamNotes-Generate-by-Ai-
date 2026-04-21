@@ -9,7 +9,7 @@ import Pricing from "./pages/Pricing.jsx";
 import History from "./pages/History.jsx";
 
 
-export const serverUrl = "http://localhost:8000";
+export const serverUrl =import.meta.env.VITE_CLIENT_URL;
 function App() {
   const dispatch = useDispatch();
 

@@ -20,7 +20,7 @@ const notesSchema = new mongoose.Schema({
    includeChart:Boolean,
    content:{
     type:mongoose.Schema.Types.Mixed, //response (string / json)
-    required:false 
+    required:true 
    }
 },{timestamps:true});
 
