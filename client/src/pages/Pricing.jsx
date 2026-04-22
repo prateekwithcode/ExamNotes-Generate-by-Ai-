@@ -11,10 +11,8 @@ function Pricing() {
     try {
       setPayingAmount(amount);
       setPaying(true);
-
-
     } catch (error) {
-      
+      console.log(error);
     }
   }
   return (
