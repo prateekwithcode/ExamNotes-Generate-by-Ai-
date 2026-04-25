@@ -179,7 +179,7 @@ function SectionHeader({ icon, title, color }) {
 }
 const formatNotesToMarkdown = (text) => {
   return text
-    .split("\n")
+    .split("\n")  
     .map((line) => {
       const trimmed = line.trim();
 
